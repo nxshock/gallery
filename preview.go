@@ -60,11 +60,11 @@ func (pc *PreviewCache) Add(filePath string) ([]byte, error) {
 			"-f", "avif",
 			tempFileName)
 	} else {
-		cmd = exec.Command("ffmpeg.exe",
+		cmd = exec.Command("ffmpeg",
 			"-i", filepath.FromSlash(filePath),
 			"-vf", "scale=240:240:force_original_aspect_ratio=increase,crop=240:240:exact=1",
 			"-frames:v", "1",
-			"-crf", "40",
+			"-crf", strconv.FormatUint(config.Crf, 10),
 			"-f", "avif",
 			tempFileName)
 	}
