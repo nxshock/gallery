@@ -20,11 +20,17 @@ func loadConfig(path string) (*Config, error) {
 		return nil, err
 	}
 
+	config.WorkingDirectory = filepath.ToSlash(config.WorkingDirectory)
+
+	if len(config.WorkingDirectory) > 0 && string(config.WorkingDirectory[len(config.WorkingDirectory)-1]) != "/" {
+		config.WorkingDirectory += "/"
+	}
+
 	workingDirectory, err := filepath.Abs(config.WorkingDirectory)
 	if err != nil {
 		return nil, err
 	}
-	config.WorkingDirectory = workingDirectory
+	config.WorkingDirectory = filepath.ToSlash(workingDirectory)
 
 	return &config, nil
 }

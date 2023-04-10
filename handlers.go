@@ -15,7 +15,12 @@ func getResponse(path string) ([]Item, error) {
 	}
 
 	for i := range fileNames {
-		fileNames[i] = strings.TrimPrefix(filepath.ToSlash(fileNames[i]), filepath.ToSlash(config.WorkingDirectory))[1:] // TODO: check is first slash properly removed
+		prefix := config.WorkingDirectory
+		if string(prefix[len(prefix)-1]) == "/" {
+			prefix = prefix[:len(prefix)-1]
+		}
+
+		fileNames[i] = strings.TrimPrefix(filepath.ToSlash(fileNames[i]), prefix)[1:] // TODO: check is first slash properly removed
 	}
 
 	items := make([]Item, 0)
